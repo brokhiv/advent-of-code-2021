@@ -5,6 +5,9 @@ package util
  */
 class Parser<T>(private vararg val patterns: Regex) {
 
+     constructor(vararg patterns: String) :
+         this(*patterns.map(String::toRegex).toTypedArray())
+
     /**
      * Transforms the [text] into an instance of [T] using the [builder].
      */
