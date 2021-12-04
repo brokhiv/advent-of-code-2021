@@ -14,8 +14,9 @@ fun main() {
 
     // Part 2
     println(nums
-            .windowed(3)
-            .map { it.sum() }.countIncrease()
+        .windowed(3)
+        .map { it.sum() }
+        .countIncrease()
     )
 }
 
