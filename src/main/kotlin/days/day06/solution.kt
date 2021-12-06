@@ -52,17 +52,13 @@ private fun simulate(start: List<Int>, days: Int): BigInteger {
 }
 
 fun partOne(input: List<String>) {
-    var lanternFish = input.map(String::toInt)
-
-    val numbers = simulate(lanternFish, 80)
+    val numbers = simulate(input.map(String::toInt), 80)
 
     println("Part 1: $numbers")
 }
 
 fun partTwo(input: List<String>) {
-    var lanternFish = input.map(String::toInt)
-
-    val numbers = simulate(lanternFish, 256)
+    val numbers = simulate(input.map(String::toInt), 256)
 
     println("Part 2: $numbers")
 }
