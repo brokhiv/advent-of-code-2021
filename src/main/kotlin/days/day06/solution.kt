@@ -1,7 +1,7 @@
 package days.day06
 
+import util.countEq
 import java.io.File
-import java.math.BigInteger
 
 fun main() {
     val today = "src/main/kotlin/days/day06"
@@ -16,18 +16,18 @@ fun main() {
         }
 }
 
-private fun simulate(start: List<Int>, days: Int): BigInteger {
+private fun simulate(start: List<Int>, days: Int): Long {
     var perDay = with(start) {
-        listOf(
-            count { it == 0 },
-            count { it == 1 },
-            count { it == 2 },
-            count { it == 3 },
-            count { it == 4 },
-            count { it == 5 },
-            count { it == 6 },
-            count { it == 7 },
-            count { it == 8 }
+        arrayOf(
+            countEq(0),
+            countEq(1),
+            countEq(2),
+            countEq(3),
+            countEq(4),
+            countEq(5),
+            countEq(6),
+            countEq(7),
+            countEq(8)
             )
             .map(Int::toLong)
     }
@@ -48,7 +48,7 @@ private fun simulate(start: List<Int>, days: Int): BigInteger {
         perDay = next
     }
 
-    return perDay.sumOf(Long::toBigInteger)
+    return perDay.sum()
 }
 
 fun partOne(input: List<String>) {

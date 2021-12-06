@@ -11,6 +11,11 @@ fun main() {
             println("Input: ${it.name}")
             val text = BingoGame(it.readText().split("\r\n\r\n|\n\n".toRegex()))
             solve(text)
+            println()
+            val winners = betterSolve(BetterBingoGame(it.readText().split("\r\n\r\n|\n\n".toRegex())))
+            println("Part 1: ${winners.first()}")
+            println("Part 2: ${winners.last()}")
+            println()
         }
 }
 
@@ -73,4 +78,62 @@ fun solve(game: BingoGame) {
         game.cards.removeAll { game.cards.indexOf(it) in lastWinners }
         game.marked.removeAll { game.marked.indexOf(it) in lastWinners }
     }
+}
+
+data class BetterBingoGame(val numbers: List<Int>, val cards: MutableList<Array<Array<Field>>>) {
+    data class Field(val num: Int, var marked: Boolean)
+
+    constructor(texts: List<String>): this(
+        texts[0]
+            .split(",")
+            .map(String::toInt),
+        texts.drop(1)
+            .map { it
+                .split("\r\n|\n".toRegex())
+                .map { row -> row
+                    .removePrefix(" ")
+                    .split(" +".toRegex())
+                    .map { col -> Field(col.toInt(), false) }
+                    .toTypedArray()
+                }
+                .toTypedArray()
+            }
+            .toMutableList()
+    )
+
+    fun hasRow(i: Int): Boolean = cards[i]
+        .map { it.fold(true) { acc, b -> acc && b.marked} }
+        .reduce { acc, r -> acc || r }
+
+    fun hasCol(i: Int): Boolean = cards[i]
+        .mapIndexed { r, row -> row.mapIndexed { c, _ -> cards[i][c][r] } }
+        .map { it.fold(true) { acc, b -> acc && b.marked} }
+        .reduce { acc, r -> acc || r }
+}
+
+fun betterSolve(game: BetterBingoGame): List<Int> {
+    val winners = mutableListOf<Int>()
+    for (n in game.numbers) {
+        val lastWinners = mutableSetOf<Int>()
+        game.cards.forEachIndexed { i, card -> game.cards[i]
+            .forEachIndexed { j, row -> row
+                .forEachIndexed { k, _ ->
+                    if (n == game.cards[i][j][k].num) row[k].marked = true
+                }
+            }
+            if (game.hasRow(i) || game.hasCol(i)) {
+                val score = game.cards[i]
+                    .mapIndexed { j, it -> it
+                        .filterIndexed { k, _ ->
+                            !card[j][k].marked
+                        }
+                    }
+                    .sumOf { it.map { it.num }.sum() }
+                winners.add(score * n)
+                lastWinners.add(i)
+            }
+        }
+        game.cards.removeAll { game.cards.indexOf(it) in lastWinners }
+    }
+    return winners
 }

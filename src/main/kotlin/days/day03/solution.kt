@@ -1,5 +1,6 @@
 package days.day03
 
+import util.countEq
 import java.io.File
 
 fun main() {
@@ -89,15 +90,15 @@ private fun analyze(diagnostics: List<String>): Pair<String, String> {
         return if (mostCommon.size == 1) {
             if (leastCommon.size == 1) Triple(mostCommon, leastCommon, mostCommon[0].length)
             else { // Process leastCommon
-                val lcb = leastCommon.count { it[i] == '1' } * 2 <= leastCommon.size
+                val lcb = leastCommon.countEq('1') * 2 <= leastCommon.size
                 go(mostCommon, leastCommon.filter { it[i] == if (lcb) '1' else '0' }, i + 1)
             }
         } else { // Process mostCommon
-            val mcb = mostCommon.count { it[i] == '1' } * 2 >= mostCommon.size
+            val mcb = mostCommon.countEq('1') * 2 >= mostCommon.size
             if (leastCommon.size == 1) {
                 go(mostCommon.filter { it[i] == if (mcb) '1' else '0' }, leastCommon, i + 1)
             } else {
-                val lcb = leastCommon.count { it[i] == '1' } * 2 < leastCommon.size
+                val lcb = leastCommon.countEq('1') * 2 < leastCommon.size
                 go (
                     mostCommon.filter { it[i] == if (mcb) '1' else '0' },
                     leastCommon.filter { it[i] == if (lcb) '1' else '0' },
