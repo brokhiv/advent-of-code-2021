@@ -35,5 +35,6 @@ fun main(args: Array<String>) {
     // Either get the given day or do the current day
     val day = if (args.isEmpty()) LocalDate.now().dayOfMonth else args[0].toInt()
     // Retrieve the main function and run it!
+    println("Running day $day:\n")
     solutions[day - 1]()
 }
