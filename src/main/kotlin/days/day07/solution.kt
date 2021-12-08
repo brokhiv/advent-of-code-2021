@@ -17,13 +17,16 @@ fun main() {
         }
 }
 
-fun partOne(input: List<String>) {
-    val crabs = input.map(String::toInt)
-
+private fun countCrabs(crabs: List<Int>): Array<Int> {
     val positions = Array(crabs.maxOrNull()!! + 1) { 0 }
     for (i in crabs.minOrNull()!!..crabs.maxOrNull()!!) {
         positions[i] = crabs.countEq(i)
     }
+    return positions
+}
+
+fun partOne(input: List<String>) {
+    val positions = countCrabs(input.map(String::toInt))
 
     val costs = positions.mapIndexed { i, _ ->
         positions.foldIndexed(0) { j, acc, count ->
@@ -35,12 +38,7 @@ fun partOne(input: List<String>) {
 }
 
 fun partTwo(input: List<String>) {
-    val crabs = input.map(String::toInt)
-
-    val positions = Array(crabs.maxOrNull()!! + 1) { 0 }
-    for (i in crabs.minOrNull()!!..crabs.maxOrNull()!!) {
-        positions[i] = crabs.countEq(i)
-    }
+    val positions = countCrabs(input.map(String::toInt))
 
     val costs = positions.mapIndexed { i, _ ->
         positions.foldIndexed(0) { j, acc, count ->
