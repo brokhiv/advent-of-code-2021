@@ -63,7 +63,6 @@ fun solve(game: BingoGame) {
                 }
             }
             if (card.hasRow() || card.hasCol()) {
-
                 val score = game.cards[i]
                     .mapIndexed { j, it -> it
                         .filterIndexed { k, _ ->
