@@ -82,3 +82,7 @@ fun partTwo(input: List<String>) {
 
     println("Part 2: ${basins.sortedByDescending { it.size }.take(3).fold(1) { acc, set -> acc * set.size }}")
 }
+
+fun partOneBetter(input: List<String>) {
+
+}
