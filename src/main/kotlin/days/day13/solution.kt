@@ -66,7 +66,7 @@ data class Fold(val type: FoldType, val pos: Int) {
         fun valuesOf(text: String): List<Fold> = text.split("\r?\n".toRegex()).map(::valueOf)
     }
 
-    fun apply(sheet: Sheet) = when (type) {
+    operator fun invoke(sheet: Sheet) = when (type) {
         FoldType.ALONG_X -> sheet.foldAlongX(pos)
         FoldType.ALONG_Y -> sheet.foldAlongY(pos)
     }
@@ -77,7 +77,7 @@ fun partOne(input: String) {
         .split("(\r?\n){2}".toRegex(), limit = 2)
         .let { (s, f) -> Sheet.valueOf(s) to Fold.valuesOf(f) }
 
-    val sheet1 = folds.first().apply(sheet)
+    val sheet1 = folds.first()(sheet)
 
     println("Part 1: ${sheet1.dots.sumOf { it.count { it } }}")
 }
@@ -87,7 +87,7 @@ fun partTwo(input: String) {
         .split("(\r?\n){2}".toRegex(), limit = 2)
         .let { (s, f) -> Sheet.valueOf(s) to Fold.valuesOf(f) }
 
-    val final = folds.fold(sheet) { s, f -> f.apply(s)}
+    val final = folds.fold(sheet) { s, f -> f(s)}
     println("Part 2: \n$final")
 }
 

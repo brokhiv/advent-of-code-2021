@@ -1,5 +1,6 @@
 package util
 
+fun <T> Iterable<T>.countDistinct(): Map<T, Int> = this.distinct().associateWith { this.countEq(it) }
 
 inline fun <T> Iterable<T>.countEq(element: T): Int = this.count { it == element }
 
