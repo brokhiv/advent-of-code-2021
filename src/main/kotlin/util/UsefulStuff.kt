@@ -4,6 +4,8 @@ fun <T> Iterable<T>.countDistinct(): Map<T, Int> = this.distinct().associateWith
 
 inline fun <T> Iterable<T>.countEq(element: T): Int = this.count { it == element }
 
+inline fun String.countEq(element: Char): Int = this.count { it == element }
+
 inline fun <T, U> Iterable<T>.nMap(fs: List<(T) -> U>): List<U> = this.zip(fs) { x, f -> f(x) }
 
 fun <A,B,C,D> Pair<A,B>.bimap(f: (A) -> C, g: (B) -> D) = Pair(f(first), g(second))
